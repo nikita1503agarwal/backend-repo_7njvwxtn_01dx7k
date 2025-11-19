@@ -1,15 +1,19 @@
 INFO:     Will watch for changes in these directories: ['/home/workspace']
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [236] using StatReload
-INFO:     Started server process [238]
+INFO:     Started reloader process [321] using StatReload
+INFO:     Started server process [323]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     172.20.0.1:45394 - "HEAD / HTTP/1.1" 405 Method Not Allowed
-INFO:     172.20.0.1:45404 - "GET /api/products HTTP/1.1" 200 OK
-INFO:     172.20.0.1:45404 - "GET /api/products HTTP/1.1" 200 OK
-INFO:     172.20.0.1:45420 - "GET /api/content HTTP/1.1" 200 OK
-INFO:     172.20.0.1:45420 - "GET /api/content HTTP/1.1" 200 OK
-INFO:     172.20.0.1:33282 - "GET /api/products HTTP/1.1" 200 OK
-INFO:     172.20.0.1:33296 - "GET /api/content HTTP/1.1" 200 OK
-INFO:     172.20.0.1:33282 - "GET /api/products HTTP/1.1" 200 OK
-INFO:     172.20.0.1:33296 - "GET /api/content HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50426 - "GET /api/products HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50426 - "GET /api/products HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50450 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     172.20.0.1:50444 - "GET /api/products HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50444 - "GET /api/products HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50442 - "GET /api/content HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50442 - "GET /api/content HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50448 - "GET /api/content HTTP/1.1" 200 OK
+INFO:     172.20.0.1:50448 - "GET /api/content HTTP/1.1" 200 OK
+INFO:     172.20.0.1:34846 - "GET /api/products HTTP/1.1" 200 OK
+INFO:     172.20.0.1:34856 - "GET /api/content HTTP/1.1" 200 OK
+INFO:     172.20.0.1:34846 - "GET /api/products HTTP/1.1" 200 OK
+INFO:     172.20.0.1:34856 - "GET /api/content HTTP/1.1" 200 OK
