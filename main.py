@@ -135,6 +135,34 @@ def seed_products_if_needed():
         if count == 0:
             for p in SAMPLE_PRODUCTS:
                 create_document("product", p)
+        # Seed default content document if none exists
+        content_count = db["content"].count_documents({})
+        if content_count == 0:
+            default_content = {
+                "hero_title": "Wellness from the Forest",
+                "hero_subtitle": "Pure, eco-friendly goods crafted with care. Fresh, holistic, and delightfully simple for everyday vitality.",
+                "hero_cta_text": "Order Online",
+                "hero_secondary_cta_text": "Our Promise",
+                "hero_badges": [
+                    "• Certified organic",
+                    "• Plastic-free shipping",
+                    "• 30-day happiness guarantee",
+                ],
+                "hero_image": None,
+                "spline_url": None,
+                "trust_items": [
+                    {"icon": "Leaf", "title": "Organic & Pure", "text": "Sourced from trusted growers"},
+                    {"icon": "ShieldCheck", "title": "Quality Assured", "text": "Third‑party tested"},
+                    {"icon": "Truck", "title": "Fast, Eco Shipping", "text": "Carbon‑aware logistics"},
+                    {"icon": "HandHeart", "title": "Giveback", "text": "1% to reforestation"},
+                ],
+                "testimonials": [
+                    {"quote": "The flavors are fresh and the ritual calms me.", "author": "Mara L.", "role": "Designer"},
+                    {"quote": "Feels premium without being wasteful.", "author": "Ravi P.", "role": "Trainer"},
+                    {"quote": "Love the soft, modern vibe and quality.", "author": "Jules K.", "role": "Nutritionist"},
+                ],
+            }
+            create_document("content", default_content)
     except Exception:
         pass
 
@@ -156,6 +184,55 @@ def list_products():
             p["id"] = str(p["_id"])
             del p["_id"]
     return products
+
+
+@app.get("/api/content")
+def get_content():
+    """Fetch the single editable site content document"""
+    if db is None:
+        # Fallback minimal content
+        return {
+            "hero_title": "Wellness from the Forest",
+            "hero_subtitle": "Pure, eco-friendly goods crafted with care.",
+            "hero_cta_text": "Order Online",
+            "hero_secondary_cta_text": "Our Promise",
+            "hero_badges": ["• Certified organic", "• Plastic-free shipping", "• 30-day happiness guarantee"],
+            "hero_image": None,
+            "spline_url": None,
+            "trust_items": [],
+            "testimonials": [],
+        }
+    doc = db["content"].find_one({})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Content not found")
+    doc["id"] = str(doc.pop("_id"))
+    return doc
+
+
+class UpdateContentRequest(BaseModel):
+    hero_title: Optional[str] = None
+    hero_subtitle: Optional[str] = None
+    hero_cta_text: Optional[str] = None
+    hero_secondary_cta_text: Optional[str] = None
+    hero_badges: Optional[List[str]] = None
+    hero_image: Optional[str] = None
+    spline_url: Optional[str] = None
+    trust_items: Optional[List[dict]] = None
+    testimonials: Optional[List[dict]] = None
+
+
+@app.put("/api/content")
+def update_content(payload: UpdateContentRequest):
+    if db is None:
+        raise HTTPException(status_code=500, detail="Database not available")
+    doc = db["content"].find_one({})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Content not found")
+    updates = {k: v for k, v in payload.model_dump(exclude_none=True).items()}
+    db["content"].update_one({"_id": doc["_id"]}, {"$set": updates})
+    new_doc = db["content"].find_one({"_id": doc["_id"]})
+    new_doc["id"] = str(new_doc.pop("_id"))
+    return new_doc
 
 
 @app.post("/api/checkout")
